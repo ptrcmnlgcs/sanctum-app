@@ -5,7 +5,8 @@
       <thead>
         <tr>
           <th width="25%">Title</th>
-          <th width="30%">Author</th>
+          <th width="10%">Author</th>
+          <th width="10%">Description</th>
           <th width="20%">Created At</th>
           <th width="25%">Actions</th>
         </tr>
@@ -14,6 +15,7 @@
         <tr v-for="post in posts" :key="post.id">
           <td>{{ post.title }}</td>
           <td>{{ post.user.name }}</td>
+          <td>{{ post.desc }}</td>
           <td>{{ new Date(post.created_at).toLocaleString() }}</td>
           <td>
             <button
