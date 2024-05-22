@@ -3,10 +3,16 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/LoginPage.vue'
 import RegisterPage from '../components/RegisterPage.vue'
 import HomePage from '../components/HomePage.vue'
+import CreatePost from '../components/CreatePost.vue'
+import ViewPost from '../components/ViewPost.vue'
+import EditPost from '../components/EditPost.vue'
 
 const routes = [
   { path: '/', component: LoginPage, name: 'login' },
   { path: '/register', component: RegisterPage, name: 'register' },
+  { path: '/create', component: CreatePost, name: 'create' },
+  { path: '/view/:id', component: ViewPost, name: 'view' },
+  { path: '/edit/:id', component: EditPost, name: 'edit' },
   {
     path: '/home', component: HomePage, name: 'home',
     beforeEnter: (to, from, next) => {

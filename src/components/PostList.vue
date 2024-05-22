@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <button @click="createPost" class="btn btn-primary">Create New Post</button>
+    <router-link to="/create"
+      ><button @click="createPost" class="btn btn-primary">
+        Create New Post
+      </button></router-link
+    >
     <table class="table-striped">
       <thead>
         <tr>
@@ -15,21 +19,15 @@
         <tr v-for="post in posts" :key="post.id">
           <td>{{ post.title }}</td>
           <td>{{ post.user.name }}</td>
-          <td>{{ post.desc }}</td>
+          <td>{{ post.description }}</td>
           <td>{{ new Date(post.created_at).toLocaleString() }}</td>
           <td>
-            <button
-              @click="viewPost(post.id)"
+            <router-link :to="{ name: 'view', params: { id: post.id } }"
               class="btn btn-primary mr-2 btn-sm"
-            >
-              View
-            </button>
-            <button
-              @click="editPost(post.id)"
-              class="btn btn-secondary mr-2 btn-sm"
-            >
-              Edit
-            </button>
+            >View</router-link>
+            <router-link :to="{ name: 'edit', params: { id: post.id } }"
+              class="btn btn-success mr-2 btn-sm"
+            >Edit</router-link>
             <button
               @click="deletePost(post.id)"
               class="btn btn-danger mr-2 btn-sm"
@@ -55,16 +53,12 @@ export default {
   },
   methods: {
     fetchPosts() {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // Handle case where token is not available
-        return;
-      }
       axios
-        .get(`${BASE_URL}/api/posts`, { // Correct URL: Append `/api`
+        .get(`${BASE_URL}/api/posts`, {
+          // Correct URL: Append `/api`
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
         })
         .then((response) => {
           console.log(response);
@@ -74,17 +68,35 @@ export default {
           console.error("There was an error fetching the posts:", error);
         });
     },
-    createPost() {
+    deletePost(id) {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        // Handle case where token is not available
+        return;
+      }
       
-    },
-    viewPost() {
-      
-    },
-    editPost() {
-      
-    },
-    deletePost() {
-      
+      axios
+        .delete(`${BASE_URL}/api/delete/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("Post deleted successfully:", response.data);
+          this.fetchPosts();
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.error("Error response:", error.response.data);
+            alert("An error occurred: " + error.response.data.message);
+          } else if (error.request) {
+            console.error("Error request:", error.request);
+            alert("No response received from the server.");
+          } else {
+            console.error("Error message:", error.message);
+            alert("Error: " + error.message);
+          }
+        });
     },
   },
   mounted() {
