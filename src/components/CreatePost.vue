@@ -56,9 +56,9 @@ export default {
         console.log('Token:', token);
         console.log('Post data:', this.post);
 
-        const response = await axios.post(${BASE_URL}/api/create, this.post, {
+        const response = await axios.post(`${BASE_URL}/api/create`, this.post, {
           headers: {
-            Authorization: Bearer ${token},
+            Authorization: `Bearer ${token}`,
           },
         });
 
