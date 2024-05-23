@@ -29,7 +29,7 @@
               class="btn btn-success mr-2 btn-sm"
             >Edit</router-link>
             <button
-              @click="deletePost(post.id)"
+              @click="confirmDelete(post.id)"
               class="btn btn-danger mr-2 btn-sm"
             >
               Delete
@@ -68,6 +68,11 @@ export default {
           console.error("There was an error fetching the posts:", error);
         });
     },
+    confirmDelete(id) {
+      if (confirm("Are you sure you want to delete this post?")) {
+        this.deletePost(id);
+      }
+    },
     deletePost(id) {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -88,7 +93,11 @@ export default {
         .catch((error) => {
           if (error.response) {
             console.error("Error response:", error.response.data);
-            alert("An error occurred: " + error.response.data.message);
+            if (error.response.status === 403) {
+              alert("You don't have access to delete this post.");
+            } else {
+              alert("An error occurred: " + error.response.data.message);
+            }
           } else if (error.request) {
             console.error("Error request:", error.request);
             alert("No response received from the server.");

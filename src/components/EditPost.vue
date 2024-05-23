@@ -78,7 +78,7 @@ export default {
       } catch (error) {
         if (error.response) {
           console.error("Error response:", error.response.data);
-          alert("An error occurred: " + error.response.data.message);
+          alert("You don't have access to edit this post.");
         } else if (error.request) {
           console.error("Error request:", error.request);
           alert("No response received from the server.");
