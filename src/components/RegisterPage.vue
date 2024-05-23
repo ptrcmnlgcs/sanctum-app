@@ -19,7 +19,7 @@
       <button type="submit" class="btn btn-primary mt-3 w-100">Register</button>
     </form>
       <div class="col-12">
-      <p class="mt-3 text-left">If you already have an account, <router-link to="/login">login here</router-link>.</p>
+      <p class="mt-3 text-left">If you already have an account, <router-link to="/">login here</router-link>.</p>
     </div>
   </div>
 </template>
