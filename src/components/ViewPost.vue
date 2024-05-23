@@ -39,6 +39,8 @@ export default {
       }
     },
   },
+};
+</script>
 
 <style scoped>
 .container {
@@ -99,6 +101,3 @@ p {
   }
 }
 </style>
-
-};
-</script>
