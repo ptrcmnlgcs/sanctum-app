@@ -1,18 +1,19 @@
 <template>
-  <div class="container">
-    <router-link to="/create"
-      ><button @click="createPost" class="btn btn-primary">
-        Create New Post
-      </button></router-link
-    >
-    <table class="table-striped">
-      <thead>
+  <div class="container mt-5">
+    <div class="d-flex justify-content-between mb-3">
+      <h2>Post List</h2>
+      <router-link to="/create">
+        <button class="btn btn-primary">Create New Post</button>
+      </router-link>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead class="thead-dark">
         <tr>
           <th width="25%">Title</th>
           <th width="10%">Author</th>
-          <th width="10%">Description</th>
+          <th width="25%">Description</th>
           <th width="20%">Created At</th>
-          <th width="25%">Actions</th>
+          <th width="20%">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -22,18 +23,13 @@
           <td>{{ post.description }}</td>
           <td>{{ new Date(post.created_at).toLocaleString() }}</td>
           <td>
-            <router-link :to="{ name: 'view', params: { id: post.id } }"
-              class="btn btn-primary mr-2 btn-sm"
-            >View</router-link>
-            <router-link :to="{ name: 'edit', params: { id: post.id } }"
-              class="btn btn-success mr-2 btn-sm"
-            >Edit</router-link>
-            <button
-              @click="confirmDelete(post.id)"
-              class="btn btn-danger mr-2 btn-sm"
-            >
-              Delete
-            </button>
+            <router-link :to="{ name: 'view', params: { id: post.id } }">
+              <button class="btn btn-primary btn-sm mr-2">View</button>
+            </router-link>
+            <router-link :to="{ name: 'edit', params: { id: post.id } }">
+              <button class="btn btn-success btn-sm mr-2">Edit</button>
+            </router-link>
+            <button @click="confirmDelete(post.id)" class="btn btn-danger btn-sm">Delete</button>
           </td>
         </tr>
       </tbody>
@@ -42,7 +38,7 @@
 </template>
 
 <script>
-import { BASE_URL } from "@/config"; // Import named export
+import { BASE_URL } from "@/config";
 import axios from "axios";
 
 export default {
@@ -55,13 +51,11 @@ export default {
     fetchPosts() {
       axios
         .get(`${BASE_URL}/api/posts`, {
-          // Correct URL: Append `/api`
           headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         })
         .then((response) => {
-          console.log(response);
           this.posts = response.data.posts;
         })
         .catch((error) => {
@@ -76,33 +70,28 @@ export default {
     deletePost(id) {
       const token = localStorage.getItem("token");
       if (!token) {
-        // Handle case where token is not available
         return;
       }
-      
+
       axios
         .delete(`${BASE_URL}/api/delete/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
-        .then((response) => {
-          console.log("Post deleted successfully:", response.data);
+        .then(() => {
           this.fetchPosts();
         })
         .catch((error) => {
           if (error.response) {
-            console.error("Error response:", error.response.data);
             if (error.response.status === 403) {
               alert("You don't have access to delete this post.");
             } else {
               alert("An error occurred: " + error.response.data.message);
             }
           } else if (error.request) {
-            console.error("Error request:", error.request);
             alert("No response received from the server.");
           } else {
-            console.error("Error message:", error.message);
             alert("Error: " + error.message);
           }
         });
@@ -115,7 +104,37 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  max-width: 1000px;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.thead-dark th {
+  background-color: #343a40;
+  color: white;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .btn {
   margin-right: 0.5rem;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+.mt-5 {
+  margin-top: 3rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
 }
 </style>
