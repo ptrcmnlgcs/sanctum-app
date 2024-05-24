@@ -50,9 +50,9 @@ export default {
   methods: {
     fetchPosts() {
       axios
-        .get(${BASE_URL}/api/posts, {
+        .get(`${BASE_URL}/api/posts`, {
           headers: {
-            Authorization: Bearer ${localStorage.getItem("token")},
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
         .then((response) => {
@@ -74,9 +74,9 @@ export default {
       }
 
       axios
-        .delete(${BASE_URL}/api/delete/${id}, {
+        .delete(`${BASE_URL}/api/delete/${id}`, {
           headers: {
-            Authorization: Bearer ${token},
+            Authorization: `Bearer ${token}`,
           },
         })
         .then(() => {
