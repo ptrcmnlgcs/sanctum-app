@@ -9,9 +9,11 @@
     </div>
   </div>
 </template>
+
 <script>
 import { BASE_URL } from "@/config"; // Import named export
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -48,17 +50,20 @@ export default {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 h1 {
   font-size: 2em;
   color: #333;
   margin-bottom: 10px;
   text-align: center;
 }
+
 p {
   font-size: 1.2em;
   color: #555;
   text-align: center;
 }
+
 .loading-message {
   display: flex;
   justify-content: center;
@@ -67,12 +72,15 @@ p {
   font-size: 1.2em;
   color: #777;
 }
+
 .animate-slideIn {
   animation: slideIn 0.5s ease-in-out;
 }
+
 .animate-fadeIn {
   animation: fadeIn 1s ease-in-out;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -81,6 +89,7 @@ p {
     opacity: 1;
   }
 }
+
 @keyframes slideIn {
   from {
     transform: translateY(10px);
@@ -92,5 +101,3 @@ p {
   }
 }
 </style>
-};
-</script>
